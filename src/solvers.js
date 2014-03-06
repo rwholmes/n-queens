@@ -112,7 +112,7 @@ window.findNQueensSolution = function(n) {
     }
   };
   place(0, $.extend({},board));
-  return solution;
+  return solution || board.rows();
 };
 
 
