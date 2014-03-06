@@ -27,8 +27,10 @@ window.findNRooksSolution = function(n) {
     }
     solution.push(row);
   }
-
-  var loopThroughBoard = function(){
+  var loopThroughBoard = function(startR, startC) {
+    solution[startR][startC] = 1;
+    rowChecker[startR] = true;
+    colChecker[startC] = true;
      //row loop
     for (var i = 0; i < n; i++){
       // col loop
@@ -37,14 +39,12 @@ window.findNRooksSolution = function(n) {
           solution[i][k] = 1;
           colChecker[k] = true;
           rowChecker[i] = true;
-        } else {
-          solution[i][k] = 0;
         }
       }
     }
   };
-  loopThroughBoard();
 
+  loopThroughBoard(0,0);
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
@@ -54,10 +54,45 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var count = 0;
+  var possibleSolutions = [];
+  var rowChecker = [];
+  var colChecker = [];
+  for (var i = 0; i < n; i++) {
+    rowChecker.push(false);
+    colChecker.push(false);
+  }
+  var rookSolutions = function(count, solution, rowChecker, colChecker) {
+    var solution = solution || [];
+    var row = [];
+    count++;
+    for (var x=0; x<n; x++) {
+      for (var y = 0; y < n; y++) {
+        if (rowChecker[x] === false && colChecker[y] === false) {
+          row.push(1);
+          rowChecker[x] = true;
+          colChecker[y] = true;
+        } else {
+          row.push(0);
+        }
+        if (y === n-1) {
+          solution.push(row);
+        }
+        if (count < n) {
+          rookSolutions(count, solution, rowChecker, colChecker);
+        }
+        row.pop();
+        rowChecker[x] = false;
+        colChecker[y] = false;
+      }
+    }
+    possibleSolutions.push(solution);
+  };
 
+
+  var solutionCount = possibleSolutions.length; //fixme
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+  return possibleSolutions[0];
 };
 
 
