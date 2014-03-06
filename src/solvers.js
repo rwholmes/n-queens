@@ -62,14 +62,17 @@ window.countNRooksSolutions = function(n) {
       solutionCount++;
     }
     for (var i=0; i<n; i++) {
-      if (!board.hasAnyRooksConflicts()) {
+      board.togglePiece(row, i);
+      if (board.hasRowConflictAt(row) || board.hasColConflictAt(i)) {
         board.togglePiece(row, i);
-        if (row < n) {
-          place(row++, $.extend({}, board));
+      } else {
+        if (row < n - 1) {
+          row++;
+          place(row, $.extend({}, board));
+          row--;
         }
         board.togglePiece(row, i);
       }
-
 
       // if there are conflicts we call place in the row above
     }
