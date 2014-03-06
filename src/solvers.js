@@ -78,13 +78,14 @@ window.countNRooksSolutions = function(n) {
         if (y === n-1) {
           solution.push(row);
         }
-        if (count < n) {
-          rookSolutions(count, solution, rowChecker, colChecker);
-        }
-        row.pop();
-        rowChecker[x] = false;
-        colChecker[y] = false;
+
       }
+      if (count < n) {
+          rookSolutions(count, solution, rowChecker, colChecker);
+      }
+      solution.pop();
+      rowChecker[x] = false;
+      colChecker[y] = false;
     }
     possibleSolutions.push(solution);
   };
