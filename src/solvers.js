@@ -56,25 +56,29 @@ window.findNRooksSolution = function(n) {
 window.countNRooksSolutions = function(n) {
   var board = new Board({n: n});
   var solutionCount = 0;
+  var rowChecker = [];
+  var colChecker = [];
+
+  populateCheckers(n, {}, {}, rowChecker, colChecker);
 
   var place = function(row, board) {
-    if (row === n - 1) {
-      solutionCount++;
-    }
     for (var i=0; i<n; i++) {
-      board.togglePiece(row, i);
-      if (board.hasRowConflictAt(row) || board.hasColConflictAt(i)) {
+      if (!rowChecker[row] && !colChecker[i]) {
         board.togglePiece(row, i);
-      } else {
+        rowChecker[row] = true;
+        colChecker[i] = true;
         if (row < n - 1) {
           row++;
           place(row, $.extend({}, board));
           row--;
         }
+        if (row === n - 1) {
+          solutionCount++;
+        }
         board.togglePiece(row, i);
+        rowChecker[row] = false;
+        colChecker[i] = false;
       }
-
-      // if there are conflicts we call place in the row above
     }
   };
   place(0, $.extend({},board));
@@ -107,29 +111,48 @@ window.findNQueensSolution = function(n) {
         }
         board.togglePiece(row, i);
       }
-
-      // if there are conflicts we call place in the row above
     }
   };
   place(0, $.extend({},board));
   return solution || board.rows();
 };
 
+var populateCheckers = function(n, majorDiags, minorDiags, rowChecker, colChecker) {
+  for (var i = (-n + 1); i < n; i++) {
+    majorDiags[i] = false;
+  }
+  for (var j=0; j<=(n-1)*2; j++) {
+    minorDiags[j] = false;
+  }
+  for (var k = 0; k < n; k++) {
+    rowChecker.push(false);
+    colChecker.push(false);
+  }
+};
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
   var board = new Board({n: n});
   var solutionCount = 0;
+  var majorDiags = {};
+  var minorDiags = {};
+  var rowChecker = [];
+  var colChecker = [];
+
+  populateCheckers(n, majorDiags, minorDiags, rowChecker, colChecker);
+
   if (n === 0 || n === 1) {
     return 1;
   }
 
   var place = function(row, board) {
     for (var i=0; i<n; i++) {
-      board.togglePiece(row, i);
-      if (board.hasRowConflictAt(row) || board.hasColConflictAt(i) || board.hasMajorDiagonalConflictAtIndices(row, i) || board.hasMinorDiagonalConflictAtIndices(row, i)) {
+      if (!rowChecker[row] && !colChecker[i] && !minorDiags[i + row] && !majorDiags[i - row]) {
         board.togglePiece(row, i);
-      } else {
+        rowChecker[row] = true;
+        colChecker[i] = true;
+        majorDiags[i - row] = true;
+        minorDiags[i + row] = true;
         if (row < n - 1) {
           row++;
           place(row, $.extend({}, board));
@@ -139,9 +162,11 @@ window.countNQueensSolutions = function(n) {
           solutionCount++;
         }
         board.togglePiece(row, i);
+        rowChecker[row] = false;
+        colChecker[i] = false;
+        majorDiags[i - row] = false;
+        minorDiags[i + row] = false;
       }
-
-      // if there are conflicts we call place in the row above
     }
   };
   place(0, $.extend({},board));
