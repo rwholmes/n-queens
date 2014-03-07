@@ -13,12 +13,25 @@
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
+// Function to populate conflict checkers
+var populateCheckers = function(n, majorDiags, minorDiags, rowChecker, colChecker) {
+  for (var i = (-n + 1); i < n; i++) {
+    majorDiags[i] = false;
+  }
+  for (var j=0; j<=(n-1)*2; j++) {
+    minorDiags[j] = false;
+  }
+  for (var k = 0; k < n; k++) {
+    rowChecker.push(false);
+    colChecker.push(false);
+  }
+};
+
 window.findNRooksSolution = function(n) {
   var board = new Board({n: n});
   var solution;
   var rowChecker = [];
   var colChecker = [];
-
   populateCheckers(n, {}, {}, rowChecker, colChecker);
 
   var place = function(row, board) {
@@ -53,7 +66,6 @@ window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
   var rowChecker = [];
   var colChecker = [];
-
   populateCheckers(n, {}, {}, rowChecker, colChecker);
 
   var place = function(row, board) {
@@ -90,7 +102,6 @@ window.findNQueensSolution = function(n) {
   var minorDiags = {};
   var rowChecker = [];
   var colChecker = [];
-
   populateCheckers(n, majorDiags, minorDiags, rowChecker, colChecker);
 
   var place = function(row, board) {
@@ -116,19 +127,6 @@ window.findNQueensSolution = function(n) {
   return solution || board.rows();
 };
 
-var populateCheckers = function(n, majorDiags, minorDiags, rowChecker, colChecker) {
-  for (var i = (-n + 1); i < n; i++) {
-    majorDiags[i] = false;
-  }
-  for (var j=0; j<=(n-1)*2; j++) {
-    minorDiags[j] = false;
-  }
-  for (var k = 0; k < n; k++) {
-    rowChecker.push(false);
-    colChecker.push(false);
-  }
-};
-
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
   var board = new Board({n: n});
@@ -137,7 +135,6 @@ window.countNQueensSolutions = function(n) {
   var minorDiags = {};
   var rowChecker = [];
   var colChecker = [];
-
   populateCheckers(n, majorDiags, minorDiags, rowChecker, colChecker);
 
   if (n === 0 || n === 1) {
