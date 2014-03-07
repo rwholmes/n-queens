@@ -160,34 +160,6 @@
       return false; // fixme
     },
 
-    // specifically for use in Nqueens solutions count
-    hasMajorDiagonalConflictAtIndices: function(row, col) {
-      var length = this.rows().length;
-      var results = [];
-      var firstCol = col;
-      var secondCol = col;
-      for (var i = row; i < length; i++){
-        var colSquare = this.rows()[i][firstCol];
-        if (colSquare === 1){
-          results.push(colSquare);
-        }
-        firstCol++;
-      }
-
-      for (var k = row -1; k >= 0; k--) {
-        var colSquare = this.rows()[k][secondCol-1];
-        if (colSquare === 1){
-          results.push(colSquare);
-        }
-        secondCol--;
-      }
-
-      if (results.length > 1){
-        return true;
-      }
-      return false; // fixme
-    },
-
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var length = this.rows().length;
@@ -216,34 +188,6 @@
         }
         colIndex--;
       }
-      if (results.length > 1) {
-        return true;
-      }
-      return false; // fixme
-    },
-
-    // specifically for use in Nqueens solution
-    hasMinorDiagonalConflictAtIndices: function(row, col) {
-      var length = this.rows().length;
-      var firstCol = col;
-      var secondCol = col;
-      var results = [];
-      for (var i=row; i<length; i++) {
-        var colSquare = this.rows()[i][firstCol];
-        if (colSquare === 1) {
-          results.push(colSquare);
-        }
-        firstCol--;
-      }
-
-      for (var k = row -1; k >= 0; k--) {
-        var colSquare = this.rows()[k][secondCol+1];
-        if (colSquare === 1){
-          results.push(colSquare);
-        }
-        secondCol++;
-      }
-
       if (results.length > 1) {
         return true;
       }
