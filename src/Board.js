@@ -104,7 +104,6 @@
     },
 
 
-
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
@@ -170,8 +169,6 @@
       }
       return false; // fixme
     },
-
-
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------

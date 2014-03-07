@@ -25,8 +25,7 @@ window.findNRooksSolution = function(n) {
     for (var i=0; i<n; i++) {
       if (!rowChecker[row] && !colChecker[i]) {
         board.togglePiece(row, i);
-        rowChecker[row] = true;
-        colChecker[i] = true;
+        rowChecker[row] = colChecker[i] = true;
         if (row < n - 1) {
           row++;
           place(row, $.extend({}, board));
@@ -37,8 +36,7 @@ window.findNRooksSolution = function(n) {
           return;
         }
         board.togglePiece(row, i);
-        rowChecker[row] = false;
-        colChecker[i] = false;
+        rowChecker[row] = colChecker[i] = false;
       }
     }
   };
@@ -62,8 +60,7 @@ window.countNRooksSolutions = function(n) {
     for (var i=0; i<n; i++) {
       if (!rowChecker[row] && !colChecker[i]) {
         board.togglePiece(row, i);
-        rowChecker[row] = true;
-        colChecker[i] = true;
+        rowChecker[row] = colChecker[i] = true;
         if (row < n - 1) {
           row++;
           place(row, $.extend({}, board));
@@ -73,8 +70,7 @@ window.countNRooksSolutions = function(n) {
           solutionCount++;
         }
         board.togglePiece(row, i);
-        rowChecker[row] = false;
-        colChecker[i] = false;
+        rowChecker[row] = colChecker[i] = false;
       }
     }
   };
@@ -101,10 +97,7 @@ window.findNQueensSolution = function(n) {
     for (var i=0; i<n; i++) {
       if (!rowChecker[row] && !colChecker[i] && !minorDiags[i + row] && !majorDiags[i - row]) {
         board.togglePiece(row, i);
-        rowChecker[row] = true;
-        colChecker[i] = true;
-        majorDiags[i - row] = true;
-        minorDiags[i + row] = true;
+        rowChecker[row] = colChecker[i] = majorDiags[i - row] = minorDiags[i + row] = true;
         if (row < n - 1) {
           row++;
           place(row, $.extend({}, board));
@@ -115,10 +108,7 @@ window.findNQueensSolution = function(n) {
           return;
         }
         board.togglePiece(row, i);
-        rowChecker[row] = false;
-        colChecker[i] = false;
-        majorDiags[i - row] = false;
-        minorDiags[i + row] = false;
+        rowChecker[row] = colChecker[i] = majorDiags[i - row] = minorDiags[i + row] = false;
       }
     }
   };
@@ -158,10 +148,7 @@ window.countNQueensSolutions = function(n) {
     for (var i=0; i<n; i++) {
       if (!rowChecker[row] && !colChecker[i] && !minorDiags[i + row] && !majorDiags[i - row]) {
         board.togglePiece(row, i);
-        rowChecker[row] = true;
-        colChecker[i] = true;
-        majorDiags[i - row] = true;
-        minorDiags[i + row] = true;
+        rowChecker[row] = colChecker[i] = majorDiags[i - row] = minorDiags[i + row] = true;
         if (row < n - 1) {
           row++;
           place(row, $.extend({}, board));
@@ -171,10 +158,7 @@ window.countNQueensSolutions = function(n) {
           solutionCount++;
         }
         board.togglePiece(row, i);
-        rowChecker[row] = false;
-        colChecker[i] = false;
-        majorDiags[i - row] = false;
-        minorDiags[i + row] = false;
+        rowChecker[row] = colChecker[i] = majorDiags[i - row] = minorDiags[i + row] = false;
       }
     }
   };
